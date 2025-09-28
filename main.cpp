@@ -1,5 +1,5 @@
 // main.cpp
-// Responsable: <Nombre> (Orquestación)
+// Responsable: <Tu Nombre y Apellido> (Orquestación)
 
 #include "Escaneo.h"
 #include "Sniffer.h"
@@ -13,7 +13,6 @@
 #include <set>
 #include <limits>
 
-// helper parse ports: range "20-1024" or comma list "22,80,443"
 std::vector<int> parse_ports(const std::string &s) {
     std::set<int> ports;
     if (s.find('-') != std::string::npos) {
@@ -59,7 +58,6 @@ int main() {
         return 1;
     }
 
-    // Crear Sniffer y arrancar captura
     Sniffer sniffer(ip, ports, 16);
     if (!sniffer.start_capture()) {
         std::cerr << "No se pudo iniciar sniffer." << std::endl;
@@ -67,35 +65,37 @@ int main() {
         std::cout << "[main] Sniffer iniciado." << std::endl;
     }
 
-    // Ejecutar escaneo (bloqueante, spawnea hilos internos)
+    // Pequeña pausa para asegurar que el sniffer esté listo
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
     Escaneo esc(ip, ports, timeout_ms);
     std::cout << "[main] Iniciando escaneo..." << std::endl;
     esc.run();
     std::cout << "[main] Escaneo finalizado." << std::endl;
 
-    // Recoger resultados y complementar con capturas (si existen)
+    // Pequeña pausa para capturar paquetes de respuesta tardíos
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    sniffer.stop_capture();
+    std::cout << "[main] Sniffer detenido." << std::endl;
+    
     auto results = esc.get_results();
     for (auto &r : results) {
-        // intentar encontrar header bytes en sniffer:
         std::ostringstream key;
-        // buscar paquete *from target ip* con source port = puerto -> la sniffer guarda como src:port:PROTO
-        key.str(""); key.clear();
         key << ip << ":" << r.port << ":" << r.protocol;
         std::string hex;
         if (sniffer.get_header(key.str(), hex)) {
             r.header_bytes = hex;
-            // marcar abierto si no se detectó antes
-            if (r.state == "Filtrado" || r.state == "Filtrado/Cerrado") {
+            if (r.state != "Abierto") {
                 r.state = "Abierto (captura)";
             }
+        } 
+        // MODIFICADO: Lógica para UDP usando ICMP
+        else if (r.protocol == "UDP" && sniffer.icmp_port_unreachable_received(r.port)) {
+            r.state = "Cerrado";
         }
     }
 
-    // detener sniffer
-    sniffer.stop_capture();
-    std::cout << "[main] Sniffer detenido." << std::endl;
-
-    // Generar JSON
     JSONGen jgen(outfile);
     if (jgen.write(results)) {
         std::cout << "Archivo JSON generado en: " << outfile << std::endl;
@@ -103,7 +103,6 @@ int main() {
         std::cout << "Error al generar JSON." << std::endl;
     }
 
-    // Mostrar resumen en consola
     for (const auto &r : results) {
         std::cout << r.protocol << " " << r.port << " -> " << r.state;
         if (!r.service.empty()) std::cout << " (" << r.service << ")";

@@ -1,0 +1,82 @@
+[
+  {
+    "header_bytes": "45 00 00 28 00 00 40 00 40 06 3B CE 7F 00 01 01",
+    "ip": "127.0.1.1",
+    "port": 22,
+    "protocol": "TCP",
+    "service": "ssh",
+    "state": "Abierto (captura)"
+  },
+  {
+    "header_bytes": "45 00 00 28 00 00 40 00 40 06 3B CE 7F 00 01 01",
+    "ip": "127.0.1.1",
+    "port": 80,
+    "protocol": "TCP",
+    "service": "http",
+    "state": "Abierto (captura)"
+  },
+  {
+    "header_bytes": "45 00 00 28 00 00 40 00 40 06 3B CE 7F 00 01 01",
+    "ip": "127.0.1.1",
+    "port": 443,
+    "protocol": "TCP",
+    "service": "https",
+    "state": "Abierto (captura)"
+  },
+  {
+    "header_bytes": "45 00 00 3C 00 00 40 00 40 06 3B BA 7F 00 01 01",
+    "ip": "127.0.1.1",
+    "port": 8080,
+    "protocol": "TCP",
+    "service": "",
+    "state": "Abierto"
+  },
+  {
+    "header_bytes": "45 00 00 28 00 00 40 00 40 06 3B CE 7F 00 01 01",
+    "ip": "127.0.1.1",
+    "port": 12345,
+    "protocol": "TCP",
+    "service": "",
+    "state": "Abierto (captura)"
+  },
+  {
+    "header_bytes": null,
+    "ip": "127.0.1.1",
+    "port": 22,
+    "protocol": "UDP",
+    "service": "",
+    "state": "Cerrado"
+  },
+  {
+    "header_bytes": null,
+    "ip": "127.0.1.1",
+    "port": 80,
+    "protocol": "UDP",
+    "service": "",
+    "state": "Cerrado"
+  },
+  {
+    "header_bytes": null,
+    "ip": "127.0.1.1",
+    "port": 443,
+    "protocol": "UDP",
+    "service": "",
+    "state": "Cerrado"
+  },
+  {
+    "header_bytes": null,
+    "ip": "127.0.1.1",
+    "port": 8080,
+    "protocol": "UDP",
+    "service": "",
+    "state": "Cerrado"
+  },
+  {
+    "header_bytes": null,
+    "ip": "127.0.1.1",
+    "port": 12345,
+    "protocol": "UDP",
+    "service": "",
+    "state": "Filtrado/Cerrado"
+  }
+]
