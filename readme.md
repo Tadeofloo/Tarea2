@@ -8,11 +8,10 @@ Herramienta de línea de comandos para Linux, desarrollada en C++ (C++17), que r
 
 ## Integrantes del Equipo
 
-- Tadeo Floo - Módulo Sniffing
+- Andres Tadeo Flores Pinal - Módulo Sniffing
 - Tadeo Floo - Módulo Escaneo
-- Tadeo Floo - Módulo JSONGen y Orquestación
+- Tadeo Floo - Módulo JSONGen y 
 
-> **Nota:** Reemplaza los nombres con los de los miembros reales de tu equipo y sus responsabilidades.
 
 ---
 
@@ -295,11 +294,6 @@ void write_result(const std::vector<PortResult>& results, const std::string &fil
 - Guardar también timestamps y metadatos de la interfaz en el JSON.
 - Soporte para IPv6.
 
----
-
-## Licencia
-
-Este proyecto está bajo la licencia MIT. Puedes adaptarlo para fines educativos.
 
 ---
 
